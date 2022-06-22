@@ -7,6 +7,7 @@ export default function TodoDetails() {
         title: '',
     });
     const [errors, setErrors] = useState(false);
+    const [toggleEdit, setToggleEdit] = useState(false);
 
     const router = useRouter();
     const { id } = router.query;
@@ -50,32 +51,40 @@ export default function TodoDetails() {
                 <h2 className="mb-4 text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
                     TODO {id}
                 </h2>
-                <form onSubmit={handleSubmit} className="mb-4">
-                    <div className="mt-1 flex gap-2">
-                        <div className="relative flex items-stretch flex-grow focus-within:z-10">
-                            <input
-                                type="text"
-                                name="title"
-                                id="title"
-                                className="focus:ring-indigo-600 focus:border-indigo-600 block w-full pl-4 border-indigo-500"
-                                placeholder={todo ? todo.title : ''}
-                                value={formData.title}
-                                onChange={handleChange}
-                            />
+                <a
+                    className="text-sm mb-2 text-indigo-500 hover:text-indigo-700 hover:underline cursor-pointer"
+                    onClick={() => setToggleEdit(!toggleEdit)}
+                >
+                    Toogle Edit
+                </a>
+                {toggleEdit && (
+                    <form onSubmit={handleSubmit} className="mb-4">
+                        <div className="mt-1 flex gap-2">
+                            <div className="relative flex items-stretch flex-grow focus-within:z-10">
+                                <input
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    className="focus:ring-indigo-600 focus:border-indigo-600 block w-full pl-4 border-indigo-500"
+                                    placeholder={todo ? todo.title : ''}
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="px-6 py-2 border border-indigo-500 bg-indigo-600 font-bold text-white hover:bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                            >
+                                <span>Edit Todo</span>
+                            </button>
                         </div>
-                        <button
-                            type="submit"
-                            className="px-6 py-2 border border-indigo-500 bg-indigo-600 font-bold text-white hover:bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                            <span>Edit Todo</span>
-                        </button>
-                    </div>
-                    {errors && (
-                        <small className="text-red-500">
-                            Todo item is required.
-                        </small>
-                    )}
-                </form>
+                        {errors && (
+                            <small className="text-red-500">
+                                Todo item is required.
+                            </small>
+                        )}
+                    </form>
+                )}
                 {todo && <p>{todo.title}</p>}
             </div>
         </div>
